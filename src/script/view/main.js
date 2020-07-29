@@ -4,9 +4,13 @@ const main = () => {
     const clubListElement = document.querySelector("#clubList");
 
 
-    const onButtonSearchClicked = () => {
-        const dataSource = new DataSource(renderResult, fallbackResult);
-        dataSource.searchClub(searchElement.value);
+    const onButtonSearchClicked = async () => {
+        try {
+            const result = await DataSource.searchClub(searchElement.value);
+            renderResult(result);
+        } catch (message) {
+            fallbackResult(message)
+        }
     };
 
 
@@ -32,7 +36,7 @@ const main = () => {
     };
 
 
-    const fallbackResult = message =>{
+    const fallbackResult = message => {
         clubListElement.innerHTML = "";
         clubListElement.innerHTML += `<h2 class="placeholder">${message}</h2>`;
     };
